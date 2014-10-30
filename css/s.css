@@ -1,0 +1,110 @@
+/*-------------------------------------------------------+
+| Content Management System
+| http://www.phphelptutorials.com/
++--------------------------------------------------------+
+| Author: Webometric Unit 2014
++--------------------------------------------------------+*/
+/*a{
+  color:@secColor !important;
+}*/
+.page-header h1 {
+  font-family: "trebuchet ms", sans-serif !important;
+}
+#logo {
+  font-size: 20px;
+  height: 100px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  background-color: #004080;
+  text-align: center;
+  color: #ffffff;
+}
+#logo img {
+  height: 80px;
+  width: 70px;
+  padding-top: 5px;
+  padding-left: 10px;
+}
+#navigation {
+  background-color: #004080;
+  height: 40px;
+}
+.menu {
+  float: left;
+  margin-bottom: 1em;
+  padding: 0px;
+}
+.menu a {
+  padding: .75em 1em;
+  text-decoration: none;
+  color: #ffffff;
+}
+.menu a {
+  color: #ffffff;
+}
+.menu li {
+  background-color: #004080;
+  display: inline;
+}
+.wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -1.7em;
+}
+.footer,
+.push {
+  height: 1.7em;
+  background-color: #00264d;
+}
+.carousel-inner h2 {
+  margin: 0;
+  color: #666;
+  padding-top: 90px;
+  font-size: 52px;
+  font-family: "trebuchet ms", sans-serif;
+}
+.item {
+  background: #333;
+  text-align: center;
+  height: 300px !important;
+}
+.carousel {
+  margin-top: 20px;
+}
+.panel-heading {
+  background-color: #0080c0 !important;
+  font-weight: bold !important;
+  color: #c0eaff !important;
+}
+.panel-default {
+  border-top-color: #808080 !important;
+}
+.jumbotron {
+  background-color: #808080 !important;
+  padding: 10px !important;
+}
+a.list-group-item {
+  color: #808080 !important;
+}
+.navbar-nav > li > a {
+  color: #ffffff !important;
+  font-weight: bold !important;
+}
+.nav > li > a:hover,
+.nav > li > a:focus {
+  background-color: #000d1a !important;
+}
+.navbar-collapse {
+  background-color: #00264d !important;
+  border-color: #003367 !important;
+  color: #ffffff !important;
+}
+.navbar {
+  background-color: #004080 !important;
+  color: #ffffff !important;
+}
+.pagination > li > a {
+  color: #808080 !important;
+  border-bottom-color: #808080 !important;
+}

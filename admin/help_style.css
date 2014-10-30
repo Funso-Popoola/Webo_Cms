@@ -1,0 +1,50 @@
+body{
+    margin: 0 auto;
+    background: #ffffff;
+    font-family:Raleway, Helvetica, Arial, sans-serif;
+    font-weight: normal;
+
+}
+.container{
+
+}
+.content-list{
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 10px;
+    height: 100%;
+    z-index: 1000;
+    overflow: auto;
+    background: #eeeeee;
+}
+
+li{
+    list-style: circle;
+}
+
+#heading h1{
+    text-align: center;
+    margin-left: -200px;
+}
+
+h2{
+    font-style: italic;
+}
+.subcategory{
+    list-style: none;
+    margin-left: 20px;
+}
+.content-container{
+    position: relative;
+    left: 300px;
+    padding-left: 0.9em;
+    margin: auto auto 0 0;
+    width: 950px;
+
+}
+.inner{
+    margin: 10px;
+}
+ em{font-weight:bold;}
