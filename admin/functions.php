@@ -37,11 +37,10 @@ function logged_in() {
 	if(isset($_SESSION['authorized'])){
 		if($_SESSION['authorized'] == 1) {
 			return true;
-		} else {
-			return false;
-		}	
+		}
 	}
-	
+
+    return false;
 }
 
 function login_required() {
@@ -81,11 +80,12 @@ function messages() {
 function errors($error){
 	if (!empty($error))
 	{
-			$i = 0;
-			while ($i < count($error)){
-			$showError.= "<div class=\"msg-error\">".$error[$i]."</div>";
-			$i ++;}
-			echo $showError;
+        $showError = "";
+        $i = 0;
+        while ($i < count($error)){
+        $showError.= "<div class=\"msg-error\">".$error[$i]."</div>";
+        $i ++;}
+        echo $showError;
 	}// close if empty errors
 } // close function
 

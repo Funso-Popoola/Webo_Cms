@@ -155,6 +155,6 @@ if(isset($_GET['admin'])){
 			$(document).ready(function(){
 				rearrange();
 			});
-		</script
+		</script>
 	</body>
 </html>

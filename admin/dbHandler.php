@@ -79,7 +79,7 @@ class dbHandler {
  *             echo "Failed to connect to MySQL: " . mysqli_connect_error();
  *         }
 
- *         // returing connection resource
+ *         // returning connection resource
  *         //return $this->conn;
  *     }
  *     

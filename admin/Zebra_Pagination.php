@@ -96,7 +96,7 @@ class Zebra_Pagination
      *
      *  Initializes the class and the default properties.
      *
-     *  @return void
+     * @return Zebra_Pagination
      */
     function __construct()
     {

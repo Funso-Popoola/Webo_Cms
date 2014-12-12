@@ -9,9 +9,15 @@ require 'Zebra_Pagination.php';
 
  class dbQuery {
 
+    var $db;
+
+    public function __construct(){
+         $this->db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
+         $this->db->selectDatabase(config::DB_NAME);
+    }
+
+
     public function getSiteTitle() {
-        $db = new dbHandler(config::HOST,config::USERNAME,config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $query = "SELECT value FROM layout WHERE name = 'dept_name'";
         $result = mysql_query($query) or die(mysql_error());
         $row = mysql_fetch_array($result);
@@ -20,14 +26,14 @@ require 'Zebra_Pagination.php';
 
     //General Content Functions
     public function setAbout($history,$contact_details,$academics,$succ_stry) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
-        $query = "UPDATE generalcontent SET  contentValue = CASE WHEN contentName = 'history' THEN '". mysql_real_escape_string($history) ."' WHEN contentName = 'contactDetails' THEN '". mysql_real_escape_string($contact_details) ."' WHEN contentName = 'successStories' THEN '". mysql_real_escape_string($succ_stry) ."' WHEN contentName = 'academics' THEN '". mysql_real_escape_string($academics) ."' END WHERE contentName  in ('history','contactDetails','successStories','academics');";
+        $query = "UPDATE generalcontent SET  contentValue = CASE WHEN contentName = 'history' THEN '".mysql_real_escape_string($history) .
+            "' WHEN contentName = 'contactDetails' THEN '".mysql_real_escape_string($contact_details) .
+            "' WHEN contentName = 'successStories' THEN '".mysql_real_escape_string($succ_stry) .
+            "' WHEN contentName = 'academics' THEN '".mysql_real_escape_string($academics) .
+            "' END WHERE contentName  in ('history','contactDetails','successStories','academics');";
         $result = mysql_query($query) or die(mysql_error());    
     }
     public function getAbout($what) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $query = "SELECT contentValue FROM generalcontent WHERE contentName = '".$what."'";
         $result = mysql_query($query) or die(mysql_error());
         $row = mysql_fetch_array($result);
@@ -35,16 +41,12 @@ require 'Zebra_Pagination.php';
     }
     
     public function setHODscorner($url,$text) {
-		$db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $queryI = "UPDATE images SET url = '" . $url . "' WHERE name = 'HODs_corner'";
         $resultI = mysql_query($queryI) or die(mysql_error());
         $query = "UPDATE generalcontent SET contentValue = '" . mysql_real_escape_string($text) . "' WHERE contentName = 'HODs_corner'";
         $result = mysql_query($query) or die(mysql_error());
 	}
     public function setMissionVision($mission,$vision) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $queryM = "UPDATE generalcontent SET contentValue = '" . mysql_real_escape_string($mission) . "' WHERE contentName = 'mission'";
         $resultM = mysql_query($queryM) or die(mysql_error());
         $queryV = "UPDATE generalcontent SET contentValue = '" . mysql_real_escape_string($vision) . "' WHERE contentName = 'vision'";
@@ -53,24 +55,27 @@ require 'Zebra_Pagination.php';
     
     //Layout Functions
     public function setLayout($dept_name,$column_num,$primary,$secondary,$tertiary,$slider1,$slider2,$slider3,$slider4) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
-        $query = "UPDATE layout SET  value = CASE WHEN name = 'theme' THEN '". $column_num ."' WHEN name = 'pri_color' THEN '". $primary ."' WHEN name = 'sec_color' THEN '". $secondary ."' WHEN name = 'ter_color' THEN '". $tertiary ."' WHEN name = 'dept_name' THEN '". $dept_name ."' END WHERE name  in ('theme','pri_color','sec_color','ter_color','dept_name') ;";
+        $query = "UPDATE layout SET  value = CASE WHEN name = 'theme' THEN '". $column_num .
+            "' WHEN name = 'pri_color' THEN '". $primary .
+            "' WHEN name = 'sec_color' THEN '". $secondary .
+            "' WHEN name = 'ter_color' THEN '". $tertiary .
+            "' WHEN name = 'dept_name' THEN '". $dept_name .
+            "' END WHERE name  in ('theme','pri_color','sec_color','ter_color','dept_name') ;";
         $result = mysql_query($query) or die(mysql_error());  
-        $queryImg = "UPDATE images SET url = CASE WHEN name = 'slider1' THEN '". $slider1 ."' WHEN name = 'slider2' THEN '". $slider2 ."' WHEN name = 'slider3' THEN '". $slider3 ."' WHEN name = 'slider4' THEN '". $slider4 ."' END WHERE name  in ('slider1','slider2','slider3','slider4') ;";  
+        $queryImg = "UPDATE images SET url = CASE WHEN name = 'slider1' THEN '". $slider1 .
+            "' WHEN name = 'slider2' THEN '". $slider2 .
+            "' WHEN name = 'slider3' THEN '". $slider3 .
+            "' WHEN name = 'slider4' THEN '". $slider4 .
+            "' END WHERE name  in ('slider1','slider2','slider3','slider4') ;";
         $resultImg = mysql_query($queryImg) or die(mysql_error());
     }
     public function getLayout($what) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $query = "SELECT value FROM layout WHERE name = '".$what."'";
         $result = mysql_query($query) or die(mysql_error());
         $row = mysql_fetch_array($result);
         echo $row['value'];    
     }
     public function getTheme($what) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $query = "SELECT value FROM layout WHERE name = '".$what."'";
         $result = mysql_query($query) or die(mysql_error());
         $row = mysql_fetch_array($result);
@@ -79,27 +84,32 @@ require 'Zebra_Pagination.php';
     
     //Research Functions
     public function setResearch($title,$type,$url,$description,$author) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
-        $query = "INSERT INTO research (title, type, url, description, author) VALUES ('" . mysql_real_escape_string($title) . "', '" . $type . "', '" . $url . "', '". mysql_real_escape_string($description) ."', '" . mysql_real_escape_string($author) . "');";
+        $query = "INSERT INTO research (title, type, url, description, author) VALUES ('" .
+            mysql_real_escape_string($title) . "', '" . $type . "', '" . $url . "', '".
+            mysql_real_escape_string($description) ."', '" .
+            mysql_real_escape_string($author) . "');";
         $result = mysql_query($query) or die(mysql_error());
     }
     public function updateResearch($id,$title,$type,$url,$description,$author) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
-        $query = sprintf("UPDATE research set title = '%s', type = '%s', url = '%s', description = '%s', author = '%s' where id = '%s' " ,mysql_real_escape_string($title),mysql_real_escape_string($type),mysql_real_escape_string($url),mysql_real_escape_string($description),mysql_real_escape_string($author),mysql_real_escape_string($id));
+        $query = sprintf("UPDATE research set title = '%s', type = '%s', url = '%s', description = '%s', author = '%s'".
+            " where id = '%s' " ,mysql_real_escape_string($title),mysql_real_escape_string($type),
+            mysql_real_escape_string($url),mysql_real_escape_string($description),
+            mysql_real_escape_string($author),mysql_real_escape_string($id));
         $result = mysql_query($query) or die(mysql_error());
     }
 
     public function getResearch($what) {
         $pagination = new Zebra_Pagination();
         $records_per_page = 3;
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         echo "<table class='table table-striped table-bordered table-condensed'>";
         echo "<thead><tr><th>Title</th><th>Description</th><th>Author</th></tr></thead>";
         echo "<tbody>";
-        $pagination->navigation_position(isset($_GET['navigation_position']) && in_array($_GET['navigation_position'], array('left', 'right')) ? $_GET['navigation_position'] : 'outside');
+        $pagination->navigation_position(
+            isset($_GET['navigation_position']) && in_array(
+                $_GET['navigation_position'],
+                array('left', 'right')
+            ) ? $_GET['navigation_position'] : 'outside'
+        );
 
         $getrese = mysql_query("SELECT SQL_CALC_FOUND_ROWS * FROM research WHERE type ='".$what."' LIMIT " . (($pagination->get_page() - 1) * $records_per_page) . ', ' . $records_per_page."") or die(mysql_error());
 
@@ -110,8 +120,11 @@ require 'Zebra_Pagination.php';
         // records per page
         $pagination->records_per_page($records_per_page);
         while ($row = mysql_fetch_array($getrese)) {
-            extract($row);
-            $research = $row['title'];
+            //extract($row);
+            $title = $row['title'];
+            $url = $row['url'];
+            $description = $row['description'];
+            $author = $row['author'];
             echo "<tr><td><a href='".$url."'>".$title."<a/></td><td>".$description."</td><td>".$author."</td></tr>";
         }  
         echo "</tbody>";
@@ -123,15 +136,16 @@ require 'Zebra_Pagination.php';
     
     //News Functions
     public function setNews($type,$title,$content,$author,$date_upload) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
-        $query = "INSERT INTO `news` (`type`, `title`, `content`, `author`, `date_upload`) VALUES ('" . $type . "', '" . mysql_real_escape_string($title) . "', '" . mysql_real_escape_string($content) . "', '". mysql_real_escape_string($author) ."', '" . $date_upload . "');";
+        $query = "INSERT INTO `news` (`type`, `title`, `content`, `author`, `date_upload`) VALUES ('"
+            . $type . "', '" . mysql_real_escape_string($title) . "', '" . mysql_real_escape_string($content)
+            . "', '". mysql_real_escape_string($author) ."', '" . $date_upload .
+            "');";
         $result = mysql_query($query) or die(mysql_error());
     }
     public function updateNews($id,$type,$title,$content,$author,$date_upload) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
-        $query = sprintf("UPDATE news set type = '%s', title = '%s', content = '%s', author = '%s', date_upload = '%s' where id = '%s' " ,mysql_real_escape_string($type),mysql_real_escape_string($title),mysql_real_escape_string($content),mysql_real_escape_string($author),mysql_real_escape_string($date_upload),mysql_real_escape_string($id));
+        $query = sprintf("UPDATE news set type = '%s', title = '%s', content = '%s', author = '%s', date_upload = '%s' where id = '%s' " ,
+            mysql_real_escape_string($type),mysql_real_escape_string($title),mysql_real_escape_string($content),
+            mysql_real_escape_string($author),mysql_real_escape_string($date_upload),mysql_real_escape_string($id));
         $result = mysql_query($query) or die(mysql_error());
     }
 
@@ -142,9 +156,7 @@ require 'Zebra_Pagination.php';
         }else{
             $records_per_page = 2;
         }
-        
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
+
         $pagination->navigation_position(isset($_GET['navigation_position']) && in_array($_GET['navigation_position'], array('left', 'right')) ? $_GET['navigation_position'] : 'outside');
         $query = "SELECT SQL_CALC_FOUND_ROWS * FROM news WHERE type ='".$what."' LIMIT " . (($pagination->get_page() - 1) * $records_per_page) . ', ' . $records_per_page.""; 
         $getnew = mysql_query($query) or die(mysql_error());
@@ -173,14 +185,10 @@ require 'Zebra_Pagination.php';
     
     //People Functions
     public function setPeople($name,$url,$category,$description) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $query = "INSERT INTO people (name, link, category, description) VALUES ('" . mysql_real_escape_string($name) . "', '" . $url . "', '" . $category . "', '". mysql_real_escape_string($description) ."');";
         $result = mysql_query($query) or die(mysql_error());
     }
     public function updatePeople($id,$name,$url,$category,$description) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $query = sprintf("UPDATE people set name = '%s', link = '%s', category = '%s', description = '%s' where id = '%s' " ,mysql_real_escape_string($name),mysql_real_escape_string($url),mysql_real_escape_string($category),mysql_real_escape_string($description),mysql_real_escape_string($id));
         $result = mysql_query($query) or die(mysql_error());
     }
@@ -192,9 +200,7 @@ require 'Zebra_Pagination.php';
         }else{
             $records_per_page = 1;
          }
-            
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
+
         $pagination->navigation_position(isset($_GET['navigation_position']) && in_array($_GET['navigation_position'], array('left', 'right')) ? $_GET['navigation_position'] : 'outside');
         $getrese = mysql_query("SELECT SQL_CALC_FOUND_ROWS * FROM people WHERE category ='".$what."'LIMIT " . (($pagination->get_page() - 1) * $records_per_page) . ', ' . $records_per_page."") or die(mysql_error());
         $rows = mysql_fetch_assoc(mysql_query('SELECT FOUND_ROWS() AS rows'));
@@ -219,14 +225,10 @@ require 'Zebra_Pagination.php';
     
     //Courses Functions
     public function setCourses($code,$title,$type,$description) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $query = "INSERT INTO courses (code, title, type, description) VALUES ('" . $code . "', '" . mysql_real_escape_string($title) . "', '" . $type . "', '". mysql_real_escape_string($description) ."');";
         $result = mysql_query($query) or die(mysql_error());
     }
     public function updateCourses($id,$code,$title,$type,$description) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $query = sprintf("UPDATE courses set code = '%s', title = '%s', type = '%s', description = '%s' where id = '%s' " ,mysql_real_escape_string($code),mysql_real_escape_string($title),mysql_real_escape_string($type),mysql_real_escape_string($description),mysql_real_escape_string($id));
         $result = mysql_query($query) or die(mysql_error());
     }
@@ -235,8 +237,6 @@ require 'Zebra_Pagination.php';
         $pagination = new Zebra_Pagination();
         $records_per_page = 10;
 
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         echo "<table class='table table-striped table-bordered table-condensed'>";
         echo "<thead><tr><th>S/N</th><th>Course Code</th><th>Course Title</th><th>Description</th></tr></thead>";
         echo "<tbody>";
@@ -254,7 +254,7 @@ require 'Zebra_Pagination.php';
 
         while ($row = mysql_fetch_array($getrese)) {
             extract($row);
-            $course = $row['code'];
+            //$course = $row['code'];
             echo "<tr><td>".$row['id']."</td><td>".$code."</td><td>".$title."</td><td>".$description."</td></tr>";
             $no += 1;
         } 
@@ -267,21 +267,15 @@ require 'Zebra_Pagination.php';
     
     //Programme Functions
     public function setProgram($name,$type,$description) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $query = "INSERT INTO programs (name, type, description) VALUES ('" . mysql_real_escape_string($name) . "', '" . $type . "', '". mysql_real_escape_string($description) ."');";
         $result = mysql_query($query) or die(mysql_error());
     }
     public function updateProgram($id,$name,$type,$description) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $query = sprintf("UPDATE programs set name = '%s', type = '%s', description = '%s' where id = '%s' " ,mysql_real_escape_string($name),mysql_real_escape_string($type),mysql_real_escape_string($description),mysql_real_escape_string($id));
         $result = mysql_query($query) or die(mysql_error());
     }
 
     public function getProgram($what) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         echo "<table>";
         echo "<tr><td>S/N</td><td>Name</td><td>Description</td></tr>";
         $getrese = mysql_query("SELECT * FROM programs WHERE type ='".$what."'") or die(mysql_error());
@@ -295,28 +289,27 @@ require 'Zebra_Pagination.php';
     
     //Resources Functions
     public function setResources($title,$code,$type,$url,$description,$author,$date) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $query = "INSERT INTO resources (title, code, type, url, description, author, date_upload) VALUES ('" . mysql_real_escape_string($title) . "', '" . $code . "', '" . $type . "', '". $url ."', '". mysql_real_escape_string($description) ."', '". mysql_real_escape_string($author) ."', '" . $date . "');";
         $result = mysql_query($query) or die(mysql_error());
     }
     public function updateResources($id,$title,$code,$type,$url,$description,$author,$date) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $query = sprintf("UPDATE resources set code = '%s', title = '%s', type = '%s', url = '%s', description = '%s', author = '%s', date_upload = '%s' where id = '%s' " ,mysql_real_escape_string($code),mysql_real_escape_string($title),mysql_real_escape_string($type),mysql_real_escape_string($url),mysql_real_escape_string($description),mysql_real_escape_string($author),mysql_real_escape_string($date),mysql_real_escape_string($id));
         $result = mysql_query($query) or die(mysql_error());
     }
 
     public function getResources($what) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         echo "<table class='table table-striped table-bordered table-condensed'>";
         echo "<thead><tr><th>Title</th><th>Code</th><th>Description</th><th>Author</th><th>Date</th></tr></thead>";
         echo "<tbody>";
         $getrese = mysql_query("SELECT * FROM resources WHERE type ='".$what."'") or die(mysql_error());
         while ($row = mysql_fetch_array($getrese)) {
             extract($row);
-            $resource = $row['title'];
+            $title = $row['title'];
+            $url = $row['url'];
+            $code = $row['code'];
+            $description = $row['description'];
+            $author = $row['author'];
+            $date_upload = $row['date_upload'];
             echo "<tr><td><a href='upload/".$url."'>".$title."<a/></td><td>".$code."</td><td>".$description."</td><td>".$author."</td><td>".$date_upload."</td></tr>";
         } 
         echo "</tbody>"; 
@@ -325,14 +318,10 @@ require 'Zebra_Pagination.php';
     
     //Time-Table Functions
     public function setTimetable($timetable) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $query = sprintf("UPDATE timetable SET timetable='%s'",mysql_real_escape_string($timetable));
         $result = mysql_query($query) or die(mysql_error());
     }
     public function getTimetable() {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $query = "SELECT * from timetable";
         $result = mysql_query($query) or die(mysql_error());
         $row = mysql_fetch_array($result);
@@ -341,14 +330,10 @@ require 'Zebra_Pagination.php';
     
     //Image Functions
     public function setImage($name,$pageName,$url) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $query = "INSERT INTO images (name, pageName, url) VALUES ('" . $name . "', '" . $pageName . "', '". $url ."');";
         $result = mysql_query($query) or die(mysql_error());
     }
     public function getImage($what) {
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $query = "SELECT url FROM images WHERE name = '".$what."'";
         $result = mysql_query($query) or die(mysql_error());
         $row = mysql_fetch_array($result);
@@ -356,8 +341,6 @@ require 'Zebra_Pagination.php';
     }
 
     public function checkPresence($table,$key,$value){
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $query = sprintf("SELECT id from %s where %s = '%s' ", mysql_real_escape_string($table), mysql_real_escape_string($key), mysql_real_escape_string($value));
         $result = mysql_query($query) or die(mysql_error());
         if (mysql_num_rows($result) > 0){
@@ -370,8 +353,6 @@ require 'Zebra_Pagination.php';
     }
 
     public function deleteEntry($table,$key,$value){
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         //$query = sprintf("DELETE from example where name = '%s' ", mysql_real_escape_string($name));
         $query = sprintf("delete from %s where %s = '%s'",mysql_real_escape_string($table),mysql_real_escape_string($key),mysql_real_escape_string($value));
         $result = mysql_query($query) or die(mysql_error());
@@ -380,15 +361,13 @@ require 'Zebra_Pagination.php';
 
 
     public function getPages($admin){
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         echo '<ul class="nav navbar-nav navbar-right">';
         echo "<li><a href='index.php$admin' >Home</a></li>";
         $getrese = mysql_query("SELECT * FROM cms WHERE visibility ='true'") or die(mysql_error());
         while ($row = mysql_fetch_array($getrese)) {
             extract($row);
             $resource = $row['pageName'];
-            echo "<li><a href='$pageName.php$admin' >".str_replace('_', ' ',$pageName)."</a></li>";
+            echo "<li><a href='".strtolower($resource).".php$admin' >".str_replace('_', ' ',$resource)."</a></li>";
         } 
         echo "<li><a href='about.php$admin' >About</a></li>";
         echo "</ul>"; 
@@ -397,8 +376,6 @@ require 'Zebra_Pagination.php';
 
 
     public function toggleVisibility($id,$status,$type){
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         if($type == 'page'){
             $query = sprintf("UPDATE cms set visibility = '%s' where pageName = '%s' " ,mysql_real_escape_string($status),mysql_real_escape_string($id));
         }else{
@@ -409,8 +386,6 @@ require 'Zebra_Pagination.php';
     }
 
      public function getVisibility($what){
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $query = "SELECT visibility FROM visibility WHERE contentName = '".$what."'";
         $result = mysql_query($query) or die(mysql_error());
         $row = mysql_fetch_array($result);
@@ -418,8 +393,6 @@ require 'Zebra_Pagination.php';
     }
 
     public function loadCon(){
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         $array = array('news'=>array(),'people'=>array(),'programs'=>array(),'research'=>array(),'resources'=>array(),'courses'=>array(),'vis'=>array(),'sub_vis'=>array());
         $tNames = array('news','people','programs','research','resources','courses','cms','visibility');
         $vis = array('Research'=>'','News_and_events'=>'','Courses_and_programmes'=>'','People'=>'','Resources'=>'');
@@ -433,8 +406,6 @@ require 'Zebra_Pagination.php';
           $a4 = array();
           $a5 = array();
           $a6 = array();
-          $a7 = array();
-          $a8 = array();
           $result = mysql_query($query) or die(mysql_error());
           while ($row = mysql_fetch_assoc($result)) {
             if($tNames[$i] == 'news'){
@@ -486,14 +457,13 @@ require 'Zebra_Pagination.php';
             $count++;     
           }
         }
+
         $array = str_replace('rn','',stripslashes(json_encode($array)));
         return $array;
     }
 
 
     public function loadPaginator($page){
-        $db = new dbHandler(config::HOST, config::USERNAME, config::PASSWORD);
-        $db->selectDatabase(config::DB_NAME);
         //$array = array('news'=>array(),'people'=>array(),'programs'=>array(),'research'=>array(),'resources'=>array(),'courses'=>array());
         //$tNames = array('news','people','programs','research','resources','courses');
         switch($page){
@@ -523,8 +493,6 @@ require 'Zebra_Pagination.php';
           $a4 = array();
           $a5 = array();
           $a6 = array();
-          $a7 = array();
-          $a8 = array();
           $count = 0;
           $result = mysql_query($query) or die(mysql_error());
           while ($row = mysql_fetch_assoc($result)) {

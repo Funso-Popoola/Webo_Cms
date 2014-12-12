@@ -7,7 +7,8 @@
 | Author: David Carr  Email: dave@daveismyname.co.uk
 +--------------------------------------------------------+*/
 
-require('config.php'); 
+require('config.php');
+require('dbHandler.php');
 if(logged_in()) {
 	header('Location: '.config::DIRADMIN.'settings.php');
 }
